@@ -1,0 +1,12 @@
+package com.flepeng.demo.spring_ioc.factory;
+
+import com.itheima.dao.UserDao;
+import com.itheima.dao.impl.UserDaoImpl;
+
+public class StaticFactory {
+
+    public static UserDao getUserDao(){
+        return new UserDaoImpl();
+    }
+
+}
