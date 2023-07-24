@@ -1,0 +1,111 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>请输入验证码</title>
+    <style>
+        body{font-family:Tahoma,Verdana,Arial,sans-serif;}.head_title{margin-top:100px;font-family:"微软雅黑";font-size:50px;font-weight:lighter;}p{font-family:"微软雅黑";font-size:16px;font-weight:lighter;color:#666;}.btn{float:left;margin-left:15px;margin-top:5px;width:85px;height:30px;background:#1bca69;font-family:"微软雅黑";font-size:16px;color:#fff;border:0;cursor:pointer;}.inp_s{margin-left:15px;margin-top:5px;width:200px;height:30px;}.fl{float:left;height:40px;}.yz{float:left;width:160px;height:40px;cursor:pointer;}.fors{margin:0 auto;width:600px;height:40px;}.error{font-size:12px;color:#ff3a3a;}
+    </style>
+</head>
+<body onload="refresh()">
+<div align="center">
+    <h1 class="head_title">抱歉...</h1>
+    <p>
+        您的查询看起来类似于来自计算机软件的自动请求。为了保护我们的用户，请原谅我们现在暂时不能处理您的请求。
+    </p>
+    <p>要继续访问网页，请输入下面所示字符：</p>
+    <form class="fors" enctype="application/x-www-form-urlencoded" method="POST" onsubmit="return false">
+        <img
+                id="captcha-img"
+                class="yz"
+                src=""
+                title="点击刷新验证码"
+                alt="Captcha image"
+                onclick="refresh()"
+        />
+        <div class="fl">
+            <input id="response" class="inp_s" type="text" maxlength="6" autocomplete="off" name="response" />
+            <div class="error" id="error"></div>
+        </div>
+        <input class="btn" type="submit" value="确定" onclick="sumbit()" />
+    </form>
+</div>
+</body>
+<script>
+    var captcha = ""
+
+    function createXMLHttpRequest() {
+        var xmlHttp
+        try {
+            xmlHttp = new XMLHttpRequest()
+        } catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP")
+            } catch (e) {
+                try {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP")
+                } catch (e) {}
+            }
+        }
+        return xmlHttp
+    }
+    var Ajax = {
+        get: function (url, callback) {
+            var xmlHttp = createXMLHttpRequest()
+            xmlHttp.open("GET", url, true)
+            xmlHttp.responseType = "blob"
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    captcha = xmlHttp.getResponseHeader("CAPTCHA-VALUE")
+                    callback.call(this, xmlHttp.response)
+                }
+            }
+            xmlHttp.send(null)
+        },
+        post: function (url, data, callback) {
+            var xmlHttp = createXMLHttpRequest()
+            xmlHttp.open("POST", url, true)
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 403) {
+                        callback.call(this, "failed")
+                    } else {
+                        var redirectUrl = xmlHttp.getResponseHeader("location");
+                        window.location.href = redirectUrl;
+                    }
+                }
+            }
+            xmlHttp.send(data)
+        },
+    }
+    function sumbit() {
+        var response = ""
+        if (document.getElementById("response")) {
+            response = document.getElementById("response").value
+        }
+        if (document.getElementById("error")) {
+            document.getElementById("error").innerHTML = ""
+        }
+        var url = "/verify-inspur-captcha.jpg"
+        var data = "input=" + response + "&captcha=" + captcha
+        if (response !== "" && captcha) {
+            Ajax.post(url, data, function (res) {
+                if (res == "failed") {
+                    if (document.getElementById("error")) {
+                        document.getElementById("error").innerHTML = "您输入的验证码有误，请重新输入"
+                        refresh()
+                    }
+                }
+            })
+        }
+    }
+    function refresh() {
+        Ajax.get("/get-inspur-captcha.jpg", function (blob) {
+            if (document.getElementById("captcha-img")) {
+                var img = document.getElementById("captcha-img")
+                img.src = window.URL.createObjectURL(blob)
+            }
+        })
+    }
+</script>
+</html>
