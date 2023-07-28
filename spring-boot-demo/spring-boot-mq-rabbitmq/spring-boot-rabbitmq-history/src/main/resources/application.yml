@@ -1,0 +1,20 @@
+# 配置tomcat端口号
+server:
+  port: 9002
+
+#激活配置文件;需要指定其它的配置文件名称
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /itcast
+    username: guest
+    password: guest
+
+
+#日志记录级别
+logging:
+  level:
+    com.flepeng: debug
+    org.springframework: info
+

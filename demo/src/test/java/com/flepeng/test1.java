@@ -22,13 +22,13 @@ public class test1 {
 
     @Test
     public void test2() {
-        // 从左到右
-        System.out.println("123\u202A456 789\u202C");
 
-        // 从右到左，方向串内部的顺序不变，方向串的顺序变成从右到左
-        System.out.println("123456\u202B@qq.com\u202C");
+        // 从右到左，方向串内部的顺序不变，方向串的顺序变成从右到左,强字符会影响他前后的中性字符。
+        System.out.println("123456\u202B@qq.com@@123");
+        System.out.println("123456@\u202Bqq.com@@123");
+        System.out.println("123456\u202B@qq.com@@123\u202Cabc");
         System.out.println("\u202B123456@qq.com\u202C");
-        System.out.println("\u202B12.34:56\u202C@qq.com\u202C");
+        System.out.println("\u202B12.34:56\u202C@qq.com");
         System.out.println("\u202B12.34-56@qq.com\u202C");
         System.out.println("\u202B12.3(45)6@qq.com\u202C");
         System.out.println("\u202B12.34:56@qq.com\u202C");
