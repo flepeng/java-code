@@ -1,0 +1,30 @@
+spring:
+  cloud:
+    config:
+      # 与远程仓库中的配置文件的application保持一致
+      name: user
+      # 远程仓库中的配置文件的profile保持一致
+      profile: dev
+      # 远程仓库中的版本保持一致
+      label: master
+      discovery:
+        # 使用配置中心
+        enabled: true
+        # 配置中心服务id
+        service-id: config-server
+  # rabbitmq的配置信息；如下配置的rabbit都是默认值，其实可以完全不配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+
+# bootstrap.yml文件也是Spring Boot的默认配置文件，而且其加载的时间相比于application.yml更早。
+# application.yml和bootstrap.yml虽然都是Spring Boot的默认配置文件，但是定位却不相同。
+# bootstrap.yml可以理解成系统级别的一些参数配置，这些参数一般是不会变动的。
+# application.yml 可以用来定义应用级别的参数，如果搭配 spring cloud config 使用，application.yml 里面定义的文件可以实现动态替换。
+# 如果使用配置中心来获取配置，则不需要application.yml 文件了

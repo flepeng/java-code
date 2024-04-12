@@ -27,7 +27,6 @@ dev.py
 *.swp
 .idea/
 .vscode
-java_code.iml
 
 
 # logs
