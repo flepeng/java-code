@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+
+package com.flepeng.dlp.api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "com/flepeng/dlp/api/v1/storage.proto";
+
+option java_multiple_files = true;                // 后续 protobuf 生成的java代码 一个源文件还是多个源文件  xx.java
+option java_outer_classname = "DlpProto";         // 指定 protobuf 生成的类 放置在哪个包中
+option java_package = "com.flepeng.dlp.api.v1";   // 指定 protobuf 生成的外部类的名字（管理内部类【内部类才是真正开发使用】）
+
+
+service DLPService {
+
+    rpc DeidentifyContent(DeidentifyContentRequest) returns (DeidentifyContentResponse) {
+        option (google.api.http) = {
+          post: "/api/v1/content:deidentify"
+          body: "*"
+        };
+    }
+}

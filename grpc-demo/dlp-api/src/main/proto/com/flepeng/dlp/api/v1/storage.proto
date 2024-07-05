@@ -1,0 +1,48 @@
+
+syntax = "proto3";
+
+package com.flepeng.dlp.api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+import "google/type/dayofweek.proto";
+import "google/type/timeofday.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "DlpStorage";
+option java_package = "com.flepeng.dlp.api.v1";
+
+// 对待识别内容进行敏感数据识别和脱敏的请求
+message DeidentifyContentRequest {
+
+    // 敏感数据识别的配置，必填
+    string inspect_config = 1;
+
+    // 脱敏算法配置，必填
+    string deidentify_config = 2;
+
+    // 待识别的内容
+    string item = 4;
+
+    // 识别规则，保留字段
+    string inspect_rule_name = 5;
+
+    // 脱敏规则，保留字段
+    string deidentify_rule_name = 6;
+}
+
+// 对待识别内容进行敏感数据识别和脱敏的应答
+message DeidentifyContentResponse {
+
+    // 应答的状态信息
+    string status = 1;
+
+    // 脱敏后的内容
+    string item = 2;
+
+    // 脱敏结果概要
+    string deidentify_result = 3;
+}
+

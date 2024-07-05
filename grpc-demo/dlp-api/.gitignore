@@ -1,0 +1,9 @@
+*/target/
+/.settings/
+.project
+.classpath
+.idea/
+/src/main/resources/system.properties
+/src/main/resources/jdbc.properties
+*.iml
+*/*.iml
