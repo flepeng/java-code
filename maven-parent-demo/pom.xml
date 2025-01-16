@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.flepeng</groupId>
-    <artifactId>maven_parent</artifactId>
+    <artifactId>maven-parent-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
